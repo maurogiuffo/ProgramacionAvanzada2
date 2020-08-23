@@ -1,0 +1,51 @@
+<head></head>
+<body>
+    <h3>Productos</h3>
+    <div id="productList"></div>
+    <h3>WishList</h3>
+    <div id="wishlist"></div>
+
+    <script>
+
+        var products = ['Producto 0','Producto 1','Producto 2','Producto 3'];
+        var wishlist = [];
+        
+        createProductList();
+
+        function createProductList(){
+            var content="";
+            products.forEach(element=>
+            {
+                content+="<div>"+ element +"<button onclick=addItem("+products.indexOf(element)+")>+</button></div>";
+            })
+            document.getElementById("productList").innerHTML=content;
+        }
+
+        function addItem(id){
+            if(wishlist.indexOf(id)!=-1)
+                return;
+            wishlist.push(id);
+            wishlist.sort();
+            printWishlist();
+        }
+
+        function removeItem(id){
+            var index=wishlist.indexOf(id);
+            if(index==-1)
+                return;
+            wishlist.splice(index,1);
+            wishlist.sort();
+
+            printWishlist();
+        }
+
+        function printWishlist()
+        {
+            var content="";
+            wishlist.forEach(element => {
+                content+="<div>"+ products[element] +"<button onclick=removeItem("+element+")>-</button></div>";
+            });
+            document.getElementById("wishlist").innerHTML=content;
+        }
+    </script>
+</body>

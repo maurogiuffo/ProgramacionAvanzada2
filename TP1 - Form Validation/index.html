@@ -1,0 +1,87 @@
+<head>
+    <script>
+        function validateName(input)
+        {
+            var nombre = input.value;
+            if(nombre.length==0)
+            {
+                alert("El campo "+ input.id +" no puede estar vacio");
+                return;
+            }
+
+            if(nombre.length>20)
+            {
+                alert("El campo "+ input.id +"  no puede tener mas de 20 caracteres");
+                return;
+            }
+        }
+
+        function validateEdad(input)
+        {
+            if(isNaN(input.value))
+            {
+                alert("El campo "+ input.id +" no es un numero");
+                return;
+            }
+        }
+
+        function validatePassword(input)
+        {
+            var pass = input.value;
+            var patt = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
+
+            if(!patt.test(pass))
+            {
+                alert("El campo "+ input.id +" debe tener entre debe tener entre 9 y 20 caracteres, un numero una minuscula y una mayuscula");
+                return;
+            }
+        }
+
+        function validateEmail(input)
+        {
+            var email = input.value;
+            var patt = new RegExp("");
+
+            if(!patt.test(email))
+            {
+                alert("El email es invalido");
+                return;
+            }
+        }
+
+    
+        function validateForm()
+        {
+
+
+        }
+
+    </script>
+</head>
+  
+<body>
+    <header>Header</header>
+    <nav>Mav</nav>
+    <aside>Aside</aside>
+    <section>
+        Section
+        <article>
+            <form>
+                <div>Nombre</div>
+                <div><input id="nombre" type="text" onblur="validateName(this)"> </div>
+                <div>Apellido</div>
+                <div><input id="apellido" type="text" onblur="validateName(this)"> </div>
+                <div>Edad</div>
+                <div><input id="edad" type="text" onblur="validateEdad(this)"> </div>
+                <div>Password</div>
+                <div><input id="contraseña" type="password" onblur="validatePassword(this)"> </div>
+                <div>Email</div>
+                <div><input id="email" type="text" onblur="validateEmail(this)"> </div>
+                <div><button type="submit" onclick="validateForm()">Enviar</button></div>
+            </form>
+        </article>
+    </section>
+    <footer>
+        Footer
+    </footer>
+</body>
