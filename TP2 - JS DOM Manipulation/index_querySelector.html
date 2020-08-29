@@ -1,0 +1,59 @@
+<html>
+<head>
+</head>
+
+<body>
+    <p id="myId"></p>
+    <p class="test"></p>
+    <p class="test"></p>
+
+    <input type="button" onclick="insertRow()" value="Insert">
+    <input type="button" onclick="deleteRow()" value="Delete">
+    
+    <table name="table1">
+        <tr>
+            <th>Header 1</th>
+            <th>Header 2</th>
+        </tr>
+    </table>
+
+    <p>
+        Nombre <span class="highlighted">Mauro Giuffo</span><br>
+        Fecha de nacimiento <span class="highlighted">31/05/1984</span><br>
+        <input type="button" onclick="highlightWords()" value="Highlight words">
+    </p>
+    
+    <script>
+        document.querySelectorAll("p")[0].innerHTML="Hello world querySelector";
+        document.querySelectorAll(".test")[0].innerHTML="Hello World querySelector";
+
+        function insertRow()
+        {
+            var table = document.querySelectorAll("table")[0];
+            var row = table.insertRow(-1);
+            var cell1 = row.insertCell(-1);
+            var cell2 = row.insertCell(-1);
+            cell1.innerHTML = "Celda1";
+            cell2.innerHTML = "Celda2";
+        }
+
+        function deleteRow() {
+            var table =document.querySelectorAll("table")[0];
+            if (table.rows.length > 1)
+                table.deleteRow(-1)
+        }
+
+        function highlightWords()
+        {
+            var elements= document.querySelectorAll(".highlighted");
+            Array.from(elements).forEach(element => {
+                element.style.color = "red"
+                element.style.fontSize = "20px"
+            });
+
+        }
+
+    </script>
+
+</body>
+</html>
