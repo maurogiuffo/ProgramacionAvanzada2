@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    
+        <title>TP 4 - Carrito de compras</title>
+    </head>
+    <body>
+        <header></header>
+        <nav></nav>
+
+        <div>
+            <aside>Cart
+                <div id="cart"></div>
+            </aside>
+            <section >
+                <h3>Products</h3>
+                <div id="products">
+        
+                </div>
+            </section>
+        </div>
+        <footer></footer>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    </body>
+
+
+    <script>
+
+        class Product {
+            constructor(id,name,description,price,imageUrl){
+                this.id= id;
+                this.name = name;
+                this.price = price;
+                this.description = description;
+                this.imageUrl = imageUrl;
+            }
+        }
+
+        var products = [];
+        var cart = [];
+        
+        createProducts();
+
+        function createProducts(){
+            products.splice(0,0,new Product(0, "Audi A1","Description",9.99,"https://mediaservice.audi.com/media/live/50900/fly1400x601n8/gba/2019.png?wid=291&mimetype=image/webp"));
+            products.splice(1,0,new Product(1, "Audi A3","Description",14.99,"https://mediaservice.audi.com/media/live/50900/fly1400x601n8/8vm/2018.png?wid=291&mimetype=image/webp"));
+            products.splice(2,0,new Product(2, "Audi A7","Description",20.99,"https://mediaservice.audi.com/media/live/50900/fly1400x601n8/8wc/2020.png?wid=291&mimetype=image/webp"));
+            products.splice(3,0,new Product(3, "Audi R8","Description",24.99,"https://mediaservice.audi.com/media/live/50900/fly1400x601n8/4spraf/2021.png?wid=291&mimetype=image/webp"));
+
+            var productsDiv = document.getElementById("products");
+            products.forEach(element=> {
+                productsDiv.appendChild(createProductElement(element));
+            })
+        }
+
+        function addToCart(id)
+        {
+            var cant=0;
+            if(cart[id] == undefined)
+                cant=1;
+            else
+                cant=++cart[id][1];
+           cart[id] = [products[id],cant];
+           showCartElements();
+        }
+
+        function removeFromCart(id)
+        {
+            if(cart[id][1] == 1)
+                cart[id] = undefined;
+            else
+                cart[id][1]--;
+           showCartElements();
+        }
+
+        function showCartElements()
+        {
+            var cartDiv = document.getElementById("cart");
+            cartDiv.innerHTML="";
+            cart.forEach(element=> {
+                if(element!=undefined)
+                cartDiv.appendChild( createCartElement(element));
+            })
+        }
+
+        function createProductElement(product)
+        {
+            var article = document.createElement("article");
+            var img = document.createElement("img");
+            img.src=  product.imageUrl;
+            var name = document.createElement("div");
+            name.innerHTML = product.name;
+            var description = document.createElement("div");
+            description.innerHTML = product.description;
+            var price = document.createElement("div");
+            price.innerHTML = product.price;
+            var button = document.createElement("input");
+            button.type="button";
+            button.value = "+";
+            button.addEventListener("click",()=>addToCart(product.id));
+
+            article.appendChild(img);
+            article.appendChild(name);
+            article.appendChild(price);
+            article.appendChild(button);
+            return article;
+        }
+
+        function createCartElement(cartElement)
+        {
+            var product= cartElement[0];
+            var cant = cartElement[1];
+            var item = document.createElement("div");
+            var name = document.createElement("div");
+            name.innerHTML = product.name;
+            var cantdiv = document.createElement("div");
+            cantdiv.innerHTML = cant;
+            var price = document.createElement("div");
+            price.innerHTML = product.price;
+            var button = document.createElement("input");
+            button.type="button";
+            button.value = "-";
+            button.addEventListener("click",()=>removeFromCart(product.id));
+           
+            item.appendChild(name);
+            item.appendChild(price);
+            item.appendChild(cantdiv);
+            item.appendChild(button);
+            return item;
+        }
+
+    </script>
+</html>
