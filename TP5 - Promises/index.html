@@ -26,17 +26,18 @@
     <script>
 
         var usersPerPage=50;
+        var currentPage=0;
+        var totalUsers=0;
         showData();
 
         function showData(){
             var promiseTotalUsers = getUrl('https://utn-avanzanda2-tp5.herokuapp.com/api/user/total');
 
             promiseTotalUsers.then((response)=>{
+                totalUsers=response;
                 showUsers(0);
-                showPageNavigator(response);
             }).catch((reason)=>{
                 console.log(Error(reason));
-                return;
             })
         }
 
@@ -47,27 +48,56 @@
 
             var pagecount=total/usersPerPage;
 
-            for (i = 0; i < pagecount; i++) {
+            if(currentPage>0)
+            {
                 var button = document.createElement("input");
-                button.id="button"+i;
+                button.id="buttonPrev";
                 button.type="button";
-                button.value = i;
-                button.addEventListener("click",()=>showUsers(i));
+                button.value = "<";
+                button.addEventListener("click",()=> showUsers(--currentPage));
                 div.appendChild(button);
             }
+
+            for (i = 0; i < pagecount; i++) {
+                var button= createPageButton(i);
+                div.appendChild(button);
+            }
+
+            if(currentPage<pagecount-1)
+            {
+                var button = document.createElement("input");
+                button.id="buttonNext";
+                button.type="button";
+                button.value = ">";
+                button.addEventListener("click",()=> showUsers(++currentPage));
+                div.appendChild(button);
+            }
+
         }
 
+        function createPageButton(i)
+        {
+            var button = document.createElement("input");
+            button.id="button"+i;
+            button.type="button";
+            button.value = i;
+            button.addEventListener("click",()=> showUsers(i));
+            return button;
+        }
 
         function showUsers(page)
         {
-            console.log(page);
+            showPageNavigator(totalUsers);
+
             var from = usersPerPage * page;
             var to = from + usersPerPage ;
+            currentPage=page;
 
             var promiseGetUsers = getUrl('https://utn-avanzanda2-tp5.herokuapp.com/api/user/'+ from + '/' + to);
 
             promiseGetUsers.then((response)=>{
                 fillUsersTable(JSON.parse(response));
+
             }).catch((reason)=>{
                 console.log(Error(reason));
             })
