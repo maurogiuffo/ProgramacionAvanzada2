@@ -1,0 +1,121 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <header>User list</header>
+        <nav></nav>
+        <aside></aside>
+        <section>
+            <article>
+                <details>
+                    <summary>
+                        <div class="wrapper">
+                            <table id='users_table'></table>
+                            <div id="pageNavigator">
+                            </div>
+                        </div>
+                       
+                    </summary>
+                </details>
+            </article>
+        </section>
+        <footer>
+        </footer>
+    </body>
+
+    <script>
+
+        var total=0,usersPerPage=50;
+        showData();
+
+        function showData(){
+            var promiseTotalUsers = getUrl('https://utn-avanzanda2-tp5.herokuapp.com/api/user/total');
+
+            promiseTotalUsers.then((response)=>{
+                total=response;
+                showUsers(0);
+                showPageNavigator();
+            }).catch((reason)=>{
+                console.log(Error(reason));
+                return;
+            })
+        }
+
+        function showPageNavigator()
+        {
+            var div = document.getElementById("pageNavigator");
+            div.innerHTML="";
+
+            var pagecount=total/usersPerPage;
+
+            for (i = 0; i < pagecount; i++) {
+                var button = document.createElement("input");
+                button.id="button"+i;
+                button.type="button";
+                button.value = i;
+                button.addEventListener("click",()=>showUsers(i));
+                div.appendChild(button);
+            }
+        }
+
+
+        function showUsers(page)
+        {
+            console.log(page);
+            var from = usersPerPage * page;
+            var to = from + usersPerPage ;
+
+            var promiseGetUsers = getUrl('https://utn-avanzanda2-tp5.herokuapp.com/api/user/'+ from + '/' + to);
+
+            promiseGetUsers.then((response)=>{
+                fillUsersTable(JSON.parse(response));
+            }).catch((reason)=>{
+                console.log(Error(reason));
+            })
+        }
+        
+        function fillUsersTable(users)
+        {
+            var table = document.getElementById("users_table");
+            table.innerHTML="";
+
+            users.forEach(element => {
+                insertUserRow(element);
+            });
+        }
+
+        function insertUserRow(user)
+        {
+            var table = document.getElementById("users_table");
+            var row = table.insertRow(-1);
+            row.insertCell(-1).innerHTML = user.userId;
+            row.insertCell(-1).innerHTML = user.firstName;
+            row.insertCell(-1).innerHTML = user.lastName;
+            row.insertCell(-1).innerHTML = user.email;
+            row.insertCell(-1).innerHTML = user.gender;
+        }
+
+        function getUrl(url)
+        {
+            return new Promise((resolve,reject)=>{
+                request = new XMLHttpRequest();
+                request.open('GET',url);
+                request.onload= function(){
+                    if(request.status == 200){
+                        resolve(request.response)
+                    }
+                    else{
+                        reject(Error('error' + request.statustext));
+                    }
+                }
+                request.onerror = function(){
+                    reject(Error('network error'));
+                }
+
+                request.send();
+            })
+        }
+    </script>
+
+</html>
+
