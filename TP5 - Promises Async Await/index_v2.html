@@ -1,0 +1,141 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <header>User list</header>
+        <nav></nav>
+        <aside></aside>
+        <section>
+            <article>
+                <details>
+                    <summary>
+                        <div class="wrapper">
+                            <table id='users_table'></table>
+                            <div id="pageNavigator">
+                            </div>
+                        </div>
+                       
+                    </summary>
+                </details>
+            </article>
+        </section>
+        <footer>
+        </footer>
+    </body>
+
+    <script>
+
+        var usersPerPage=50;
+
+        window.onload = () => {
+            showData(0);
+        }
+
+
+        function showData(page){
+            currentPage=page;
+            showUsers(page);
+            showPageNavigator(page);
+        }
+
+        async function showPageNavigator(page){
+            var promiseTotalUsers = getUrl('https://utn-avanzanda2-tp5.herokuapp.com/api/user/total');
+            var result = await promiseTotalUsers;
+            createPageNavigator(result,page);
+        }
+
+        function createPageNavigator(total,page)
+        {
+            var div = document.getElementById("pageNavigator");
+            div.innerHTML="";
+
+            var pagecount=total/usersPerPage;
+
+            if(page>0)
+            {
+                var button = document.createElement("input");
+                button.id="buttonPrev";
+                button.type="button";
+                button.value = "<";
+                button.addEventListener("click",()=> showData(--page));
+                div.appendChild(button);
+            }
+
+            for (i = 0; i < pagecount; i++) {
+                var button= createPageButton(i);
+                div.appendChild(button);
+            }
+
+            if(page<pagecount-1)
+            {
+                var button = document.createElement("input");
+                button.id="buttonNext";
+                button.type="button";
+                button.value = ">";
+                button.addEventListener("click",()=> showData(++page));
+                div.appendChild(button);
+            }
+        }
+
+        function createPageButton(i)
+        {
+            var button = document.createElement("input");
+            button.id="button"+i;
+            button.type="button";
+            button.value = i;
+            button.addEventListener("click",()=> showData(i));
+            return button;
+        }
+
+        async function showUsers(page)
+        {
+            var from = usersPerPage * page;
+            var to = from + usersPerPage ;
+
+            var url= 'https://utn-avanzanda2-tp5.herokuapp.com/api/user/'+ from + '/' + to;
+            var promiseGetUsers = getUrl(url);
+            var result= await promiseGetUsers;
+            fillUsersTable(result);
+        }
+        
+        function fillUsersTable(users)
+        {
+            var table = document.getElementById("users_table");
+            table.innerHTML="";
+            
+            users.forEach(element => {
+                insertUserRow(element);
+            });
+        }
+
+        function insertUserRow(user)
+        {
+            var table = document.getElementById("users_table");
+            var row = table.insertRow(-1);
+            row.insertCell(-1).innerHTML = user.userId;
+            row.insertCell(-1).innerHTML = user.firstName;
+            row.insertCell(-1).innerHTML = user.lastName;
+            row.insertCell(-1).innerHTML = user.email;
+            row.insertCell(-1).innerHTML = user.gender;
+        }
+        
+        function getUrl(url) {
+            const request = new XMLHttpRequest()
+            request.responseType = 'json'
+            return new Promise((resolve, reject) => {
+                request.open('GET', url)
+                request.onload = () => {
+                    if (request.status >= 200 && request.status < 300) {
+                        resolve(request.response)
+                    } else {
+                        reject(request.statusText)
+                    }
+                }
+                request.onerror = () => reject(request.statusText)
+                request.send()
+            })
+        }
+    </script>
+
+</html>
+
