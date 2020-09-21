@@ -1,0 +1,205 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <header>Employee list</header>
+        <nav></nav>
+        <aside></aside>
+        <section>
+            <article>
+                <div>
+                    <form id="formEmployee">
+                        FirstName <input type="text" id = "firstName"><br>
+                        LastName <input type="text" id = "lastName"><br>
+                        Email <input type="text" id = "email"><br>
+                        <select id = "companySelect">
+                            
+                        </select><br>
+                        <button onclick="addEmployee()" type="button" >Add</button>
+                    </form>
+                </div>
+            </article>
+
+            <article>
+                <details>
+                    <summary>
+                        <div>
+                            <table id='employes_table'></table>
+                            <div id="pageNavigator">
+                            </div>
+                        </div>
+                    </summary>
+                </details>
+            </article>
+
+         
+        </section>
+        <footer>
+        </footer>
+    </body>
+
+    <script>
+
+    const server = 'https://utn-avanzada2-tp6.herokuapp.com';
+    var companies;
+    var employes;
+
+    window.onload = () => {
+        load();
+    }
+
+    
+    function load(){
+        document.getElementById("formEmployee").reset();
+        Promise.all([getEmployes(), getCompanies() ])
+        .then(()=>{
+            employes.forEach(element => {
+                element.companyName = companies.filter(c => c.companyId==element.companyId)[0].name;
+            });
+
+            createCompaniesSelect();
+            createEmployesList();
+        });
+    }
+
+
+    function createCompaniesSelect()
+    {
+        var x = document.getElementById("companySelect");
+        companies.forEach(element=>{
+            var option = document.createElement("option");
+            option.text = element.name;
+            option.value = element.companyId;
+            x.add(option); 
+        })
+    }
+
+    
+
+    function createEmployesList()
+    {
+        var table = document.getElementById("employes_table");
+        table.innerHTML="";
+
+        employes.forEach(element => {
+            insertEmployeeRow(element,table);
+        });
+    }
+
+    function insertEmployeeRow(employee,table)
+    {
+        var row = table.insertRow(-1);
+        row.insertCell(-1).innerHTML = employee.employeeId;
+        row.insertCell(-1).innerHTML = employee.firstName;
+        row.insertCell(-1).innerHTML = employee.lastName;
+        row.insertCell(-1).innerHTML = employee.email;
+        row.insertCell(-1).innerHTML = employee.companyName;
+        var delButton = document.createElement("input");
+        delButton.type="button";
+        delButton.value = 'Del';
+        delButton.addEventListener('click',()=> deleteEmployee(employee.employeeId));
+        row.insertCell(-1).appendChild(delButton);
+    }
+
+    async function getCompanies()
+    {
+        const url = server + '/api/Company';
+        var result = await get(url);
+        companies= result;
+        console.log(companies);
+    }
+
+    async function getEmployes()
+    {
+        const url = server + '/api/Employee';
+        var result = await get(url);
+        employes=result;
+        console.log(result);
+    }
+
+    function addEmployee(){
+        var fn = document.getElementById('firstName').value;
+        var ln = document.getElementById('lastName').value;
+        var em = document.getElementById('email').value;
+        var ci = parseInt(document.getElementById('companySelect').value);
+
+        const data = {
+            'employeeId':0,
+            'firstName':fn,
+            'lastName':ln,
+            'email':em,
+            'companyId':ci
+        };
+
+       post(server + '/api/Employee',data).then((result)=>{
+            console.log(result);
+            
+            load();
+        });
+    }
+
+    function deleteEmployee(employeeId){
+        del(server + '/api/Employee/'+employeeId).then((result)=>
+        {
+            console.log(result);
+            load();
+        });
+    }
+
+
+
+    function get(url) {
+        const request = new XMLHttpRequest()
+        request.responseType = 'json'
+        return new Promise((resolve, reject) => {
+            request.open('GET', url)
+            request.onload = () => {
+                if (request.status >= 200 && request.status < 300) {
+                    resolve(request.response)
+                } else {
+                    reject(request.statusText)
+                }
+            }
+            request.onerror = () => reject(request.statusText)
+            request.send()
+        })
+    }
+
+    function post(url,data) {
+        const request = new XMLHttpRequest()
+        request.responseType = 'json';
+        return new Promise((resolve, reject) => {
+            request.open('POST', url);
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.onload = () => {
+                if (request.status >= 200 && request.status < 300) {
+                    resolve(request.response)
+                } else {
+                    reject(request.statusText)
+                }
+            }
+            request.onerror = () => reject(request.statusText)
+            request.send(JSON.stringify(data));
+        })
+    }
+
+    function del(url) {
+        const request = new XMLHttpRequest()
+        request.responseType = 'json';
+        return new Promise((resolve, reject) => {
+            request.open('DELETE', url);
+            request.onload = () => {
+                if (request.status >= 200 && request.status < 300) {
+                    resolve(request.response)
+                } else {
+                    reject(request.statusText)
+                }
+            }
+            request.onerror = () => reject(request.statusText)
+            request.send();
+        })
+    }
+    </script>
+
+</html>
+
