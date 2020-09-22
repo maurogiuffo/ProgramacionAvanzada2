@@ -20,6 +20,28 @@
                 <div id="array_bisiesto"></div>
                 <h3>personas</h3>
                 <div id="array_personas"></div>
+                <h3>carrito</h3>
+                <div id="carrito"></div>
+
+                <h3>form</h3>
+                <div>
+                    <form id="form_test" onsubmit="getFormvalue()">
+                        First name: <input type="text" name="fname"><br>
+                        Last name: <input type="text" name="lname"><br>
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>  
+                <h3>table</h3>
+                <div id="divTable">
+                    <form id="form_createTable" onsubmit="createTable()">
+                        filas: <input type="text" name="filas"><br>
+                        columnas: <input type="text" name="columnas"><br>
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+
+                <h3>promises</h3>
+                <div id="divPromises"></div>
             </article>
         </section>
         <footer>
@@ -28,12 +50,10 @@
     </body>
     <script>
 
-        deleteArrayDuplicates();
-        checkArrayBisiesto();
-
-
+   
         /*******************************************/
 
+        deleteArrayDuplicates();
 
         function deleteArrayDuplicates()
         {
@@ -67,6 +87,7 @@
 
         /*******************************************/
 
+        checkArrayBisiesto();
 
         function checkArrayBisiesto()
         {
@@ -126,5 +147,152 @@
 
             document.getElementById('array_personas').innerHTML = personas.join(" , ");
         }
+
+        /*******************************************/
+
+        carrito();
+
+        function carrito(){
+
+            function Item(nombre,precio,cantidad)
+            {
+                this.nombre = nombre;
+                this.precio = precio;
+                this.cantidad = cantidad;
+            }
+
+            Item.prototype.toString = function()
+            {
+                return  this.nombre + " " + this.precio + " " + this.cantidad;
+            }
+
+            
+            var array = [
+                new Item('articulo1',9.99,5),
+                new Item('articulo2',19.99,2),
+                new Item('articulo3',29.99,1),
+                new Item('articulo4',39.99,3),
+            ]
+
+            var carritoDiv = document.getElementById('carrito');
+
+            var total=0;
+
+            array.forEach(element => {
+                total += element.precio * element.cantidad;
+                var d= document.createElement("div");
+                d.innerHTML = element;
+                carritoDiv.appendChild(d);
+            });
+
+            var d= document.createElement("div");
+                d.innerHTML ="total " + total;
+                carritoDiv.appendChild(d);
+        }
+
+        
+        /*******************************************/
+
+        //addCheckForm();
+
+        function addCheckForm()
+        {
+            var button = document.querySelector("form[id='form_test'] input[type='submit']");
+            button.addEventListener('click',()=> getFormvalue())
+        }
+
+        function getFormvalue()
+        {
+            event.preventDefault();
+            var texts = document.querySelectorAll("form[id='form_test']  input[type='text']");
+            texts.forEach(element => {
+                if(element.value == "")
+                    console.log(element.name +" Empty");
+            });
+        }
+
+          
+        /*******************************************/
+
+        function createTable()
+        {
+            event.preventDefault();
+            var divTable = document.querySelector("#divTable");
+            var filas = divTable.querySelector("form[id='form_createTable'] input[name='filas']").value;
+            var columnas = divTable.querySelector("form[id='form_createTable'] input[name='columnas']").value;
+
+
+            var table = document.createElement("table");
+            
+            for (let f = 0; f < filas; f++) {
+               var row = table.insertRow(-1);
+
+               for (let c = 0; c < columnas; c++) {
+                   row.insertCell(-1).innerHTML = c;
+               }
+
+            }
+            divTable.innerHTML="";
+            divTable.appendChild(table);
+
+        }
+
+
+       /*******************************************/
+
+       stringPromises();
+       
+       function stringPromises()
+       {
+            var array1 = [1,2,4,true,false,'Escriba'];
+
+            var array2 = ['Escriba','programa','palabras','encadenadas','operación',
+            'elementos','promesa','mayúscula','cantidad','inputs'];
+           
+            proccessAll(array1);
+            proccessAll(array2);
+
+
+            function checkStrings(array){
+                return promise1 = new Promise((resolve,reject) =>{
+                    array.forEach(element => {
+                        if(typeof(element)!= 'string' )
+                            reject(element + " is not string" );
+                    });
+                    resolve('todos string');
+                });
+            }
+
+            function upperCaseFirstChar(array){
+                return promise = new Promise((resolve,reject) =>{
+                    for (let index = 0; index < array.length; index++) {
+                        var element = array[index];
+                        array[index] = element.charAt(0).toUpperCase() + element.slice(1,element.length);
+                    }
+                    resolve(array);
+                });
+            }
+
+            function orderArray(array){
+                return promise = new Promise((resolve,reject) =>{
+                    array.sort();
+                    
+                    resolve(array);
+                });
+            }
+
+            function proccessAll(array)
+            {
+                var promiseAll1 = Promise.all([ checkStrings(array),upperCaseFirstChar(array), orderArray(array)])
+                    .then((successMessage) => {
+                        console.log("success!" + successMessage);
+                    })
+                    .catch((reason) => {
+                        console.log("failed!" + reason);
+                    });
+            }
+
+       }
+
     </script>
 </html>
