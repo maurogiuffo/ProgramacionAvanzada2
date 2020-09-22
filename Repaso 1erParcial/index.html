@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset='utf-8'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <title>Page Title</title>
+    <script src='main.js'></script>
+    </head>
+    <body>
+        <header>Header</header>
+        <nav>Mav</nav>
+        <aside>Aside</aside>
+        <section>
+            Section
+            <article>
+                <h3>array_filtered</h3>
+                <div id="array"></div>
+                <div id="array_filtered"></div>
+                <h3>bisiesto</h3>
+                <div id="array_bisiesto"></div>
+                <h3>personas</h3>
+                <div id="array_personas"></div>
+            </article>
+        </section>
+        <footer>
+            Footer
+        </footer>
+    </body>
+    <script>
+
+        deleteArrayDuplicates();
+        checkArrayBisiesto();
+
+
+        /*******************************************/
+
+
+        function deleteArrayDuplicates()
+        {
+            var array = [0,1,2,3,4,5,6,2,3,4,7,5,2];
+
+            document.getElementById("array").innerHTML = array.join(" - ");
+
+            var length= array.length;
+            for (let index = 0; index < length; index++) {
+                const e = array[index];
+                
+                var continueDeleting = true;
+                while(continueDeleting)
+                {
+                    var duplicateElementIndex=array.indexOf(e,index+1);
+                    if(duplicateElementIndex != -1)
+                    {
+                        array.splice(duplicateElementIndex,1);
+                        length--;
+                    }
+                    else
+                    {
+                        continueDeleting = false;
+                    }
+                }
+            }
+
+            document.getElementById("array_filtered").innerHTML = array.join(" - ");
+        }
+
+
+        /*******************************************/
+
+
+        function checkArrayBisiesto()
+        {
+            var array = [1800,1900,1984,1986,1990,1995,1998,2000,2002,2004,2006,2008,2010];
+
+            var divBisiestos =  document.getElementById("array_bisiesto");
+
+            array.forEach(element => {
+                var d = document.createElement("div");
+                divBisiestos.appendChild(d);
+                if(checkBisiesto(element))
+                    d.innerHTML= "Año " + element + " es bisiesto" ;
+                else
+                    d.innerHTML= "Año " + element + " no es bisiesto" ;
+            });
+        } 
+
+        function checkBisiesto(value)
+        {
+            if(value % 4 !=0)
+                return false;
+
+            if(value % 100 == 0)
+            {
+                if(value % 400 != 0)
+                    return false;
+            }
+            return true;
+        }
+
+        /*******************************************/
+
+        personas();
+
+        function personas(){
+            class Persona {
+                constructor(nombre,apellido,edad){
+                    this.nombre = nombre;
+                    this.apellido = apellido;
+                    this.edad = edad;
+                }
+
+                toString()
+                {
+                    return this.nombre + ' ' + this.apellido + ' ' + this.edad;
+                }
+            }
+
+            var personas = [ new Persona("nombre1","apellido1",30),
+                new Persona("nombre2","apellido2",25),
+                new Persona("nombre3","apellido3",40),
+                new Persona("nombre4","apellido4",35)]
+
+            personas.sort((a,b) => {
+                return a.edad > b.edad 
+            })
+
+            document.getElementById('array_personas').innerHTML = personas.join(" , ");
+        }
+    </script>
+</html>
