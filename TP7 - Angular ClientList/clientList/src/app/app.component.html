@@ -1,0 +1,9 @@
+<div class="container">
+  <div> Cliente seleccionado: {{client.firstName}} {{client.lastName}}</div>
+
+  <app-client-list [clientList]="clientList" 
+  (selectClientEvent)="selectClient($event)" 
+  (editClientEvent)="editClient($event)" 
+  (deleteClientEvent)="deleteClient($event)"></app-client-list>
+  <app-client-add [clientList]="clientList" [clientToEdit]="clientToEdit"></app-client-add>
+</div>

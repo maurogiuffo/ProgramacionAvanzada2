@@ -1,0 +1,6 @@
+<form >
+    <input type="text" id="firstName" name="firstName" [(ngModel)]="firstName">
+    <input type="text" id="lastName" name="lastName" [(ngModel)]="lastName">
+    <button (click)="addClient()" *ngIf="clientToEdit == null">Add</button>
+    <button (click)="saveClient()" *ngIf="clientToEdit != null">Save</button>
+</form>
