@@ -1,0 +1,18 @@
+<h3>Carrito</h3>
+
+<table>
+    <thead></thead>
+    <tbody>
+        <tr *ngFor="let product of productList">
+            <td>
+                {{product.name}}
+            </td>
+            <td>
+                <button type="button" (click)="removeProduct(product)">-</button>
+            </td>
+        </tr>
+
+        <button type="button" (click)="confirm()"> Confirm</button>
+
+    </tbody>
+    

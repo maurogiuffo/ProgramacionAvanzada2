@@ -1,0 +1,35 @@
+<p>login works!</p>
+
+<div *ngIf="isLogged">
+    <button (click)= "logout()">Logout</button>        
+</div>
+
+<table *ngIf="!isLogged">
+    <tr>
+        <td>
+            Email            
+        </td>
+        <td>
+            <input type="email" name="email" [(ngModel)]="email" class="form-control form-control-ml" required value="">
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            Password            
+        </td>
+        <td>
+            <input type="password" name="password" [(ngModel)]="password" class="form-control form-control-ml" required value="">
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+              <button (click)= "login()">Login</button>        
+        </td>
+        <td>
+            
+        </td>
+    </tr>
+
+</table>
