@@ -1,1 +1,24 @@
-<p>product-list works!</p>
+<h3>Productos</h3>
+
+<table>
+    <thead></thead>
+    <tbody>
+        <tr *ngFor="let product of productList">
+            <td>
+                {{product.productId}}
+            </td>
+            <td>
+                {{product.name}}
+            </td>
+            <td>
+                {{product.price}}
+            </td>
+
+            <td>
+                <a class="btn btn-success btn-sm" [routerLink]="['/product-add-edit/',product.productId ]">Edit</a>
+            </td>
+        </tr>
+    </tbody>
+    
+    
+    

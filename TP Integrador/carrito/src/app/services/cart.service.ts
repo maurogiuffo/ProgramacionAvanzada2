@@ -30,4 +30,8 @@ export class CartService {
     return (products.length>0) ? products[0]: null;
   }
 
+  clear(){
+    this.productList.splice(0,  this.productList.length)
+  }
+
 }
