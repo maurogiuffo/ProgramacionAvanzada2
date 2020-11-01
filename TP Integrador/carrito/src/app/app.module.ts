@@ -10,8 +10,10 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
-import { CatergoryListComponent } from './components/catergory-list/catergory-list.component';
-import { CategoryListComponent } from './components/category-list/category-list.component';
+import { CategoryListComponent } from './components/admin/category-list/category-list.component';
+import { CategoryAddEditComponent } from './components/admin/category-add-edit/category-add-edit.component';
+import { ProductListComponent } from './components/admin/product-list/product-list.component';
+import { ProductAddEditComponent } from './components/admin/product-add-edit/product-add-edit.component';
 
 @NgModule({
   declarations: [
@@ -21,8 +23,10 @@ import { CategoryListComponent } from './components/category-list/category-list.
     ProductManagementSectionComponent,
     PageNotFoundComponent,
     LoginComponent,
-    CatergoryListComponent,
-    CategoryListComponent
+    CategoryListComponent,
+    CategoryAddEditComponent,
+    ProductListComponent,
+    ProductAddEditComponent
   ],
   imports: [
     BrowserModule,
