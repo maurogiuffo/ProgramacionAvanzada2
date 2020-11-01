@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit ,EventEmitter, Input, Output} from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -12,15 +12,20 @@ export class LoginComponent implements OnInit {
   password : string;
 
 
+  @Output()
+  loggedEvent = new EventEmitter<boolean>();
+
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+    this.isLogged= this.userService.isLogged();
   }
 
   login(){
     this.userService.login(this.email,this.password)
       .then(result=>{
         this.isLogged= this.userService.isLogged();
+        this.loggedEvent.emit();
       })
       .catch(error =>{
       })
@@ -31,6 +36,7 @@ export class LoginComponent implements OnInit {
     this.userService.logout();
     this.isLogged = false;
   }
+
 
 
 }
