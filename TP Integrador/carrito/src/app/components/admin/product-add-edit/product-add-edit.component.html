@@ -1,1 +1,41 @@
 <p>{{title}}</p>
+
+<main class="py-5">
+    <section class="mb-5">
+         <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
+            <div class="container">
+                <h3 class="mb-3">{{title}}</h3>
+                <div class="bg-light p-4">
+                    <div class="row">                                                                         
+                        <div class="col-lg-4">
+                            <label for="">Name</label>
+                            <input type="text" name="name" formControlName="name" class="form-control form-control-ml" required value="">
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label for="">Description</label>
+                            <input type="text" name="description" formControlName="description" class="form-control form-control-ml" required value="">
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label for="">Price</label>
+                            <input type="number" name="price" formControlName="price" class="form-control form-control-ml" required value="">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label for="">Category</label>
+                            <input type="text" name="productCategoryId" formControlName="productCategoryId" class="form-control form-control-ml" required value="">
+                        </div>
+
+                    
+                    </div> 
+                    {{ message }}
+                    <hr class="mb-4">
+                    <button type="submit" class="btn btn-primary" [disabled]="!productForm.valid">Save</button>                    
+                </div>
+            </div>
+         </form>
+    </section>
+</main>

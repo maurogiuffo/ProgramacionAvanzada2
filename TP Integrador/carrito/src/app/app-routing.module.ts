@@ -8,7 +8,7 @@ import { MainPublicDashboardComponent } from './components/main-public-dashboard
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
-  {path: '', component: MainPublicDashboardComponent, pathMatch: 'full'},
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   {path: 'dashboard', component: MainPublicDashboardComponent},
   {path: 'cart', component: CartComponent},
   {path: 'product-list', component: ProductListComponent},

@@ -8,7 +8,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { ProductManagementSectionComponent } from './components/product-management-section/product-management-section.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
 import { CategoryListComponent } from './components/admin/category-list/category-list.component';
 import { CategoryAddEditComponent } from './components/admin/category-add-edit/category-add-edit.component';
@@ -32,6 +32,7 @@ import { ProductAddEditComponent } from './components/admin/product-add-edit/pro
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule
   ],
   providers: [],

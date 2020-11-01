@@ -30,4 +30,15 @@ export class ProductService {
     return this.http.post(this.apiURL, product, httpOptions)
       .toPromise();
   }
+
+  edit(product: Product): Promise<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+    
+    return this.http.put(this.apiURL, product, httpOptions)
+      .toPromise();
+  }
 }
