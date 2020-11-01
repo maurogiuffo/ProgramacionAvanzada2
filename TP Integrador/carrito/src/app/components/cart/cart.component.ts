@@ -11,11 +11,14 @@ import { UserService } from 'src/app/services/user.service';
 export class CartComponent implements OnInit {
   isLogged:boolean = false;
   productList: Array<Product> =[];
+  total: number = 0;
 
   constructor(private cartService: CartService,private userService: UserService) { }
 
   ngOnInit(): void {
     this.productList = this.cartService.getAll();
+    this.total= this.calculateTotal(); 
+  
     this.isLogged = this.userService.isLogged();
   }
 
@@ -26,10 +29,21 @@ export class CartComponent implements OnInit {
 
   removeProduct(product: Product){
     this.cartService.remove(product);
+    this.total= this.calculateTotal(); 
   }
 
   confirm()
   {
     alert("confirm")
+  }
+
+  calculateTotal(): number
+  {
+    let total =0;
+    this.productList.forEach(element => {
+      total+= element.price;  
+    });
+
+    return total;
   }
 }

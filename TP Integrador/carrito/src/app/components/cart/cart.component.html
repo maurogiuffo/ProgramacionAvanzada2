@@ -12,13 +12,26 @@
             </td>
         </tr>
 
-        <div *ngIf="!isLogged">
-            <app-login (loggedEvent)="loggedEvent($event)" ></app-login>
-        </div>
-        <div *ngIf="isLogged">
-            <button type="button" (click)="confirm()"> Confirm</button>
-        </div>
-        
+        <tr>
+            <td>
+                Total
+            </td>
+            <td>
+                {{total}}
+            </td>
+        </tr>
+
 
     </tbody>
+
+    
+        
+    <div *ngIf="!isLogged">
+        <app-login (loggedEvent)="loggedEvent($event)" ></app-login>
+    </div>
+    <div *ngIf="isLogged">
+        <button type="button" (click)="confirm()"> Confirm</button>
+    </div>
+    
+
     
