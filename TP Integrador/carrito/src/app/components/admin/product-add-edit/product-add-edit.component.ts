@@ -35,11 +35,13 @@ export class ProductAddEditComponent implements OnInit {
     })
     .catch(error => {
       console.log(error);
+      this.message = "An error has occurred!";
     });
 
     let param= this.route.snapshot.paramMap.get('id');
     if(param== undefined || param== null || param == ""){
       this.title = "Add";
+      this.product = new Product();
       return;
     }
 
@@ -53,21 +55,17 @@ export class ProductAddEditComponent implements OnInit {
       this.productForm.get('name').setValue(this.product.name);
       this.productForm.get('description').setValue(this.product.description);
       this.productForm.get('price').setValue(this.product.price);
-      //this.productForm.get('productCategoryId').setValue(this.product.productCategoryId);
+      this.productForm.get('productCategoryId').setValue(this.product.productCategoryId);
 
     })
     .catch(error => {
       console.log(error);
+      this.message = "An error has occurred!";
     });
   }
 
 
   saveProduct(){
-
-    if(!this.edit)
-    {
-      this.product = new Product();
-    }
 
     this.product.name = this.productForm.get('name').value;
     this.product.description = this.productForm.get('description').value;

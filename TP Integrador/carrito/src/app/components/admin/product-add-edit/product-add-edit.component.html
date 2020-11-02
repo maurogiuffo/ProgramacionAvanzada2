@@ -23,14 +23,12 @@
                         </div>
                     </div>
 
-            
-
                     <div class="row">
                         <div class="col-lg-4">
                             <label for="">Category</label>
                             <select formControlName="productCategoryId">
-                                <option *ngFor="let category of productCategories" [ngValue]="productCategoryId">
-                                  {{ category.name }}
+                                <option *ngFor="let category of productCategories" [ngValue]="category.productCategoryId">
+                                  {{ category.description }}
                                 </option>
                               </select>
                         </div>
