@@ -1,1 +1,23 @@
 <p>category-list works!</p>
+
+<a class="btn btn-success btn-sm" [routerLink]="['/category-add-edit/']">Add</a>
+
+<table>
+    <thead></thead>
+    <tbody>
+        <tr *ngFor="let category of productCategoryList">
+            <td>
+                {{category.productCategoryId}}
+            </td>
+            <td>
+                {{category.description}}
+            </td>
+        
+            <td>
+                <a class="btn btn-success btn-sm" [routerLink]="['/category-add-edit/',category.productCategoryId ]">Edit</a>
+            </td>
+        </tr>
+    </tbody>
+    
+    
+    

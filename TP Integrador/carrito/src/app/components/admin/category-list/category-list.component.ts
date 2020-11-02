@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ProductCategory } from 'src/app/models/product-category';
+import { ProductCategoryService } from 'src/app/services/product-category.service';
 
 @Component({
   selector: 'app-category-list',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoryListComponent implements OnInit {
 
-  constructor() { }
+  productCategoryList: Array<ProductCategory> = null;
+
+  constructor(private productCategoryService : ProductCategoryService ) { }
 
   ngOnInit(): void {
+    this.productCategoryService.getAll()
+    .then(result=>{
+      this.productCategoryList = result;
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
   }
 
 }

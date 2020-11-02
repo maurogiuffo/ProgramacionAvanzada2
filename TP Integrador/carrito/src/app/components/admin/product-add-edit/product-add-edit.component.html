@@ -23,14 +23,20 @@
                         </div>
                     </div>
 
+            
+
                     <div class="row">
                         <div class="col-lg-4">
                             <label for="">Category</label>
-                            <input type="text" name="productCategoryId" formControlName="productCategoryId" class="form-control form-control-ml" required value="">
+                            <select formControlName="productCategoryId">
+                                <option *ngFor="let category of productCategories" [ngValue]="productCategoryId">
+                                  {{ category.name }}
+                                </option>
+                              </select>
                         </div>
-
-                    
                     </div> 
+
+
                     {{ message }}
                     <hr class="mb-4">
                     <button type="submit" class="btn btn-primary" [disabled]="!productForm.valid">Save</button>                    

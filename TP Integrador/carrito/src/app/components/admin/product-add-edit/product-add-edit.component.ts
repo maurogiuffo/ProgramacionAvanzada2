@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Product } from 'src/app/models/product';
+import { ProductCategory } from 'src/app/models/product-category';
+import { ProductCategoryService } from 'src/app/services/product-category.service';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -11,7 +13,8 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ProductAddEditComponent implements OnInit {
   edit: boolean= false;
-  product: Product = null; 
+  product: Product = null;
+  productCategories: Array<ProductCategory> = null;
   title: string = '';
   message: string = '';
 
@@ -22,9 +25,17 @@ export class ProductAddEditComponent implements OnInit {
     productCategoryId: new FormControl(''),
   });
 
-  constructor( private productService: ProductService, private route: ActivatedRoute) { }
+  constructor( private productService: ProductService,private productCategoryService: ProductCategoryService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+
+    this.productCategoryService.getAll()
+    .then(result=>{
+      this.productCategories = result;
+    })
+    .catch(error => {
+      console.log(error);
+    });
 
     let param= this.route.snapshot.paramMap.get('id');
     if(param== undefined || param== null || param == ""){
@@ -42,7 +53,7 @@ export class ProductAddEditComponent implements OnInit {
       this.productForm.get('name').setValue(this.product.name);
       this.productForm.get('description').setValue(this.product.description);
       this.productForm.get('price').setValue(this.product.price);
-      this.productForm.get('productCategoryId').setValue(this.product.productCategoryId);
+      //this.productForm.get('productCategoryId').setValue(this.product.productCategoryId);
 
     })
     .catch(error => {
