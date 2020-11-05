@@ -15,7 +15,6 @@ export class ProductService {
   }
 
   getById(productId: number): Promise<any>{
-    console.log(this.apiURL + productId);
     return this.http.get(this.apiURL + '/' + productId)
       .toPromise();
   }

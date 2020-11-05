@@ -26,6 +26,7 @@ export class CategoryAddEditComponent implements OnInit {
     let param= this.route.snapshot.paramMap.get('id');
     if(param== undefined || param== null || param == ""){
       this.title = "Add";
+      this.productCategory = new ProductCategory();
       return;
     }
 
@@ -44,12 +45,6 @@ export class CategoryAddEditComponent implements OnInit {
   }
 
   save(){
-
-    if(!this.edit)
-    {
-      this.productCategory = new ProductCategory();
-    }
-
     this.productCategory.description = this.productCategoryForm.get('description').value;
     
     if(!this.edit)

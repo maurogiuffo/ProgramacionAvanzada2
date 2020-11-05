@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Product } from 'src/app/models/product';
 import { ProductCategory } from 'src/app/models/product-category';
@@ -19,13 +19,15 @@ export class ProductAddEditComponent implements OnInit {
   message: string = '';
 
   productForm = new FormGroup({
-    name: new FormControl(''),
+    name: new FormControl('',[Validators.required,Validators.minLength(5)]),
     description: new FormControl(''),
     price: new FormControl(''),
     productCategoryId: new FormControl(''),
   });
 
   constructor( private productService: ProductService,private productCategoryService: ProductCategoryService, private route: ActivatedRoute) { }
+
+  get name() { return this.productForm.get('name'); }
 
   ngOnInit(): void {
 
@@ -65,7 +67,7 @@ export class ProductAddEditComponent implements OnInit {
   }
 
 
-  saveProduct(){
+  save(){
 
     this.product.name = this.productForm.get('name').value;
     this.product.description = this.productForm.get('description').value;
