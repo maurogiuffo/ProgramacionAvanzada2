@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
 import { CartService } from 'src/app/services/cart.service';
-import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,22 +9,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  isLogged:boolean = false;
   productList: Array<Product> =[];
   total: number = 0;
 
-  constructor(private cartService: CartService,private userService: UserService,private router: Router) { }
+  constructor(private cartService: CartService,private router: Router) { }
 
   ngOnInit(): void {
     this.productList = this.cartService.getAll();
     this.total= this.calculateTotal(); 
-  
-    this.isLogged = this.userService.isLogged();
-  }
-
-  loggedEvent()
-  {
-    this.isLogged = this.userService.isLogged();
   }
 
   removeProduct(product: Product){

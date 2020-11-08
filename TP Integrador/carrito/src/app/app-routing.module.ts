@@ -10,7 +10,8 @@ import { MainPublicDashboardComponent } from './components/main-public-dashboard
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  {path: 'login', component: LoginComponent},
   {path: 'dashboard', component: MainPublicDashboardComponent},
   {path: 'cart', component: CartComponent},
   {path: 'category-list', component: CategoryListComponent},
@@ -19,7 +20,6 @@ const routes: Routes = [
   {path: 'product-list', component: ProductListComponent},
   {path: 'product-add-edit', component: ProductAddEditComponent},
   {path: 'product-add-edit/:id', component: ProductAddEditComponent },
-  {path: 'login', component: LoginComponent},
   {path: '**', component: PageNotFoundComponent}
 ];
 

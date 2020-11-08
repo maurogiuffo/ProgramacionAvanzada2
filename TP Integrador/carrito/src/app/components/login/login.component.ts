@@ -1,42 +1,52 @@
 import { Component, OnInit ,EventEmitter, Input, Output} from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
+import { UserCredentials } from 'src/app/models/user-credentials';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit {
-  isLogged = false;
-  email : string;
-  password : string;
+   loginFormGroup : FormGroup;
 
+  constructor(private authService: AuthService, private router: Router) { }
 
-  @Output()
-  loggedEvent = new EventEmitter<boolean>();
-
-  constructor(private userService: UserService) { }
-
-  ngOnInit(): void {
-    this.isLogged= this.userService.isLogged();
+  ngOnInit() {
+    this.loginFormGroup = new FormGroup({
+      'email': new FormControl(),
+      'password': new FormControl()
+    })
   }
 
-  login(){
-    this.userService.login(this.email,this.password)
-      .then(result=>{
-        this.isLogged= this.userService.isLogged();
-        this.loggedEvent.emit();
-      })
-      .catch(error =>{
-      })
+  onSubmit(){
+    let userCredentials = new UserCredentials();
+    userCredentials.email = this.loginFormGroup.get('email').value;
+    userCredentials.password = this.loginFormGroup.get('password').value;
+
+    this.authService.login(userCredentials).subscribe(
+      response => {    
+        if (this.authService.token) {
+          let redirect = this.authService.redirectUrl 
+          ? this.router.parseUrl(this.authService.redirectUrl) : '/dashboard';
+          
+          this.router.navigateByUrl(redirect);
+        }
+      },
+    error => {
+      
+    });
   }
 
   logout()
   {
-    this.userService.logout();
-    this.isLogged = false;
+    this.authService.logout();
+
+    setTimeout(() => {
+      this.router.navigateByUrl('/login');      
+    }, 2000);      
   }
-
-
-
 }

@@ -12,34 +12,4 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  isLogged()
-  {
-    return this.user != null;
-  }
-
-  logout(){
-    this.user=null;
-  }
-
-  login(mail: string, password: string)
-  {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json'
-      })
-    };
-
-    let user : User = new User();
-    
-    user.email = mail;
-    user.password= password;
-
-    return this.http.post(this.apiURL + '/login', user, httpOptions)
-      .toPromise<any>()
-      .then(result => { 
-        this.user = result;
-      })
-      .catch();
-
-  }
 }
