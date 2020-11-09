@@ -12,4 +12,10 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  
+  getAll(): Promise<any>{
+    return this.http.get(this.apiURL)
+      .toPromise();
+  }
+
 }

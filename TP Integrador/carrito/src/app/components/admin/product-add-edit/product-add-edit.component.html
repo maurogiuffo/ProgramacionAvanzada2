@@ -38,8 +38,8 @@
                     <hr class="mb-4">
                     <button type="submit" class="btn btn-primary" [disabled]="!productForm.valid">Save</button>                    
 
-                    <div>{{ message }}</div>
-
+                  
+                    <div class="row">{{ message }}</div>
                     <div class="row" *ngIf="!name.valid && (name.dirty || name.touched)">
                         <div class="col-lg-12">
                             <div class="alert alert-danger" role="alert" *ngIf="name.errors.required">
@@ -48,6 +48,16 @@
                             <div class="alert alert-danger" role="alert" *ngIf="name.errors.minlength">
                                 First Name must contain more than 4 letters
                             </div> 
+
+                            <div class="alert alert-danger" role="alert" *ngIf="name.errors.forbiddenWords">
+                                Forbidden Words
+                            </div> 
+
+                            <div class="alert alert-danger" role="alert" *ngIf="name.errors.productExists">
+                                Product Exists
+                            </div> 
+
+                            
                         </div>
                     </div>
                   

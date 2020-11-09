@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { CustomValidators } from 'src/app/common/custom-validators';
 import { Product } from 'src/app/models/product';
 import { ProductCategory } from 'src/app/models/product-category';
 import { ProductCategoryService } from 'src/app/services/product-category.service';
@@ -19,7 +20,7 @@ export class ProductAddEditComponent implements OnInit {
   message: string = '';
 
   productForm = new FormGroup({
-    name: new FormControl('',[Validators.required,Validators.minLength(5)]),
+    name: new FormControl('',[Validators.required,Validators.minLength(5),CustomValidators.forbiddenWords(/Pan/)],[CustomValidators.productExists(this.productService)]),
     description: new FormControl(''),
     price: new FormControl(''),
     productCategoryId: new FormControl(''),
